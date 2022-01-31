@@ -1,0 +1,59 @@
+<div class="modal-header bg-primary">
+    <h4 class="modal-title text-white">About Word<i class="bi bi-hexagon-fill"></i>Héx </h4>
+    <button type="button" class="close text-white" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="alert alert-info">
+        <p class="mb-0">
+            This game was inspired by the original <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>. One word 
+            a day wasn't enough for me. I wanted another round without waiting 24-hours. I'm sure plenty feel the same. 
+            I decided to create this and expand it to 6-letter words. What can I say other than, "Imitiation is the sincerest
+            form of flattery." Enjoy!
+        </p>
+      </div>
+    <hr />
+    <p class="fs-3">
+        Guess the 6-letter (Héx) word of the day in 6 tries.
+    </p>
+    <p class="fa-3">
+        Each guess must be a valid 6-letter (Héx) word. Hit the <i class="bi bi-check-square-fill" style="color: green !important"></i> to submit.
+    </p>
+    <p class="fa-3">
+        After each guess, the color of the tiles will change to show how close your guess was to the word.
+    </p>
+    <hr />
+    <h4>Examples</h4>
+    <div class="d-flex justify-content-left">
+        <div class="btn btn-square m-1 pt-2 btn-success text-center"><h4>H</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>E</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>R</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>O</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>I</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>C</h4></div>
+    </div>
+    <p class="fa-3">The letter <span class="text-success fw-bolder">H</span> is in the word and in the correct position</p>
+    <div class="d-flex justify-content-left">
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>A</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>S</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-warning text-center"><h4>L</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>E</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>E</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>P</h4></div>
+    </div>
+    <p class="fa-3">The letter <span class="text-warning fw-bolder">L</span> is in the word but in the wrong position</p>
+    <div class="d-flex justify-content-left">
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>H</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>U</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>N</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>G</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-primary text-center"><h4>R</h4></div>
+        <div class="btn btn-square m-1 pt-2 btn-outline-primary text-center"><h4>Y</h4></div>
+    </div>
+    <p class="fa-3">The letter <span class="text-primary fw-bolder">R</span> is not in the word</p>
+    <hr />
+    <p class="fa-2 fw-bolder">
+        A new Word<i class="bi bi-hexagon-fill"></i>Héx will be available each day!
+    </p>
+</div>

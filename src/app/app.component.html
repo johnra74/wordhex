@@ -1,0 +1,39 @@
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">Word<i class="bi bi-hexagon-fill"></i>Héx</a>
+    
+    <div class="nav navbar-right">      
+      <span class="mr-2 text-white d-xs-inline d-sm-inline" (click)="showAboutDialog()"><i class="bi bi-info-square"></i></span>
+      <span class="mr-3 text-white d-none d-xs-none d-sm-none d-md-inline" (click)="showAboutDialog()">About</span>
+      <span class="mr-2 text-white d-xs-inline d-sm-inline" (click)="showStatusDialog()"><i class="bi bi-bar-chart-fill"></i></span>
+      <span class="text-white d-none d-xs-none d-sm-none d-md-inline" (click)="showStatusDialog()">Stats</span>
+  </div>    
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row p-2">&nbsp;</div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10 col-xs-10">
+      <app-board></app-board>
+    </div>
+  </div>
+  <div class="row p-3">&nbsp;</div>
+  <div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10 col-xs-10">
+        <app-keyboard></app-keyboard>
+      </div>
+  </div>
+  <div class="row p-4">&nbsp;</div>
+</div>
+
+<!-- Footer -->
+<footer class="navbar navbar-inverse navbar-fixed-bottom navbar-dark bg-secondary">
+  <!-- Copyright -->  
+  <div class="text-center p-4 text-white" >
+    &copy; 2022 Copyright:
+    <a class="text-reset fw-bold" href="https://www.jstrgames.com/">JSTR Games, LLC</a>
+  </div>  
+  <!-- Copyright -->
+</footer>
