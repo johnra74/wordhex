@@ -67,7 +67,7 @@ describe('MessageService', () => {
       expect(flag).toBe(true);
     });
 
-    service.reloadLastGame();    
+    service.reloadLastGame(true);    
   });
 
   it('given valid service when sendKey() is called then return sent key on Observable<string>', () => {    
