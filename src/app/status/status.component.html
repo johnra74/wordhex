@@ -35,10 +35,15 @@
         No Statistics available
         </p>
     </div>
-    <div class="d-flex justify-content-around panel">
+    <div class="d-flex justify-content-around panel" *ngIf="isDone">
         <div class="text-center">
             <h4>Next Word in</h4>
             <h5><countdown #cd [config]="countDownCfg" (event)="handleCountDownEvent($event)"></countdown></h5>
+        </div>
+    </div>
+    <div class="d-flex justify-content-around panel" *ngIf="!isDone">
+        <div class="text-center">
+            <h4>Game In Progess</h4>
         </div>
     </div>
 </div>

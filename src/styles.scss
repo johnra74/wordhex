@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "~bootswatch/dist/flatly/variables";
+@import "~bootswatch/dist/cosmo/variables";
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 /* Importing Bootstrap-ICON SCSS file. */
 @import '~bootstrap-icons/font/bootstrap-icons.scss';
 
-@import "~bootswatch/dist/flatly/bootswatch";
+@import "~bootswatch/dist/cosmo/bootswatch";
 
 
 
@@ -16,25 +16,27 @@
 }
 
 .selectedGreen {
-    background-color: green !important;
+    background-color: #4caf50 !important;
     color: white !important;
 }
 
 .selectedUsed {
-    background-color: #2c3e50 !important;
+    background-color: #2780e3 !important;
     color: white;
 }
 
 .selectedHit {
-    background-color: #18bc9c !important;
+    background-color: #3fb618 !important;
+    color: white;
 }
 
 .selectedMiss {
-    background-color: #f39c12 !important;
+    background-color: #ff7518 !important;
+    color: white;
 }
 
 .enteredInvalidWord {
-    background-color: #dc3545 !important;
+    background-color: #ff0039 !important;
     color: white;
 }
 

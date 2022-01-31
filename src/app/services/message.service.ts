@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { GameStat } from '../board/board.component';
 
 interface Game {
   id: string;
@@ -75,9 +76,9 @@ export class MessageService {
     return this.reloadKeyBoardSubject.asObservable();
   }
 
-  reloadLastGame(): void {    
-    this.reloadBoardSubject.next(true);
-    this.reloadKeyBoardSubject.next(true);
+  reloadLastGame(isDone:boolean): void {    
+    this.reloadBoardSubject.next(isDone);
+    this.reloadKeyBoardSubject.next(isDone);
   }
 
   getCurrentDateKey(): string {
@@ -98,11 +99,17 @@ export class MessageService {
     this.gameEngine.postMessage({ type: 'isValidWord', payload: guess });
   }
   
-  canPlay(): boolean {
+  canPlay(): boolean {    
     let playable: boolean = false;
     const item = localStorage.getItem(this.getCurrentDateKey())
     if (typeof item === 'object' && item === null) {
       playable = true;      
+    } else {
+      const stat: GameStat = JSON.parse(item) as GameStat;
+      if (stat.inProgress) {
+        this.reloadLastGame(false);
+        playable = true;
+      }      
     }
     return playable;
   }

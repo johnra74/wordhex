@@ -4,6 +4,7 @@ import { MessageService, Result } from '../services/message.service'
 
 export interface GameStat {
   isWin: boolean;
+  inProgress: boolean;
   guessNumber: number;
   board: Row[];
 }
@@ -53,15 +54,13 @@ export class BoardComponent implements OnInit {
     this.messageService.getResult().subscribe({
       next: (result:Result) => {
         if (this.rowNumber === 6) {
-          this.saveToLocalStorage(7);     
+          this.saveToLocalStorage(false, 7);     
         } else {
           for (let idx = 0; idx < 6; idx++) {          
             this.board[this.rowNumber].cards[idx].hint = result.isSuccess ? 1 : result.hints[idx];
-          }
+          }          
           this.rowNumber++;
-          if (result.isSuccess) {
-            this.saveToLocalStorage(this.rowNumber - 1);     
-          }
+          this.saveToLocalStorage(result.isSuccess, this.rowNumber);          
         }
       },
       error: (e) => console.log(e),
@@ -77,9 +76,15 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  private saveToLocalStorage(guessNumber:number): void {
-    const stat:GameStat = { isWin: guessNumber < 7, guessNumber: guessNumber, board: this.board };
-
+  private saveToLocalStorage(isWin:boolean, guessNumber:number): void {
+    let stat:GameStat;
+    if (guessNumber === 7) {
+      stat = { isWin: false, inProgress: false, guessNumber: guessNumber, board: this.board };
+    } else if (isWin) {
+      stat = { isWin: true, inProgress: false, guessNumber: guessNumber, board: this.board };
+    } else {
+      stat = { inProgress: true, guessNumber: guessNumber, board: this.board } as GameStat;
+    }
     localStorage.setItem(this.messageService.getCurrentDateKey(), JSON.stringify(stat));
   }
 

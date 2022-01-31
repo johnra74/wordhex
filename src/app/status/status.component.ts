@@ -21,6 +21,7 @@ export class StatusComponent {
   currentStreak: number;
   bestStreak: number;
   guessDistribution: number[] = [0,0,0,0,0,0];
+  isDone: boolean;
 
   barChartOptions: ChartConfiguration['options'] = {    
     responsive: true,
@@ -58,14 +59,22 @@ export class StatusComponent {
   }
 
   ngOnInit(): void {
-    this.playCount = localStorage.length;
-    
-    if (this.playCount > 0 && localStorage.length > 0) {
+    if (localStorage.length > 0) {
       for (var key in localStorage) {
         const item = localStorage.getItem(key);
-        if (typeof item === 'string' && item !== '') {        
+        if (typeof item === 'string' && item !== '') { 
           const stat:GameStat = JSON.parse(item) as GameStat;
-
+          if (key === this.messageService.getCurrentDateKey()) {
+            if (stat.inProgress) {
+              this.isDone = false;
+              continue; // don't count incomplete games
+            } else {
+              this.isDone = true;              
+            }            
+          } else {
+            if (stat.inProgress) continue; // don't count incomplete games            
+          }        
+          this.playCount++;
           this.generateStats(stat);
         }      
       }

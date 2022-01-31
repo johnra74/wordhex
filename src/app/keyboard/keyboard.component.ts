@@ -57,7 +57,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
 
     this.messageService.getReloadKeyBoardNotification().subscribe({
       next: (refresh:boolean) => {
-        this.isDone = true;
+        this.isDone = refresh;
         this.reloadLastGame();
       },
       error: (e) => console.log(e),

@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     this.messageService.isReady().subscribe((isReady:boolean) => {
       if (!isReady) {
         // notify board to load last game stat
-        this.messageService.reloadLastGame();
+        this.messageService.reloadLastGame(true);
         // load status dialog
         this.showStatusDialog();
       }
