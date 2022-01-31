@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgChartsModule } from 'ng2-charts';
 import { CountdownModule } from 'ngx-countdown';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
@@ -25,7 +26,8 @@ import { AboutComponent } from './about/about.component';
     NgbModule,
     HttpClientModule,
     NgChartsModule,
-    CountdownModule
+    CountdownModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

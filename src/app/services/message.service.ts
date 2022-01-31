@@ -12,6 +12,7 @@ interface Game {
 
 export interface Result {
   isSuccess: boolean;
+  isNaW: boolean;
   hints: number[];
 }
 
@@ -28,8 +29,11 @@ export class MessageService {
   private reloadKeyBoardSubject = new Subject<boolean>();
   
   private gameEngine: Worker;
+  private isGameOver: boolean;
   
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient) {  
+    this.isGameOver = false;
+  }
 
   init(): void {
     if (typeof Worker !== 'undefined') {
@@ -66,6 +70,14 @@ export class MessageService {
 
   isReady(): Observable<boolean> {
     return this.isReadySubject.asObservable();
+  }
+
+  isDone(): boolean {
+    return this.isGameOver;
+  }
+  
+  setDone(flag:boolean): void {
+    this.isGameOver = flag;
   }
 
   getReloadBoardNotification(): Observable<boolean> {

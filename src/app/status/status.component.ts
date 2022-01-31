@@ -4,8 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { ClipboardService } from 'ngx-clipboard';
 
-import { GameStat } from '../board/board.component'
+import { GameStat, Row, Card } from '../board/board.component'
 import { MessageService } from '../services/message.service'
 
 @Component({
@@ -22,6 +23,7 @@ export class StatusComponent {
   bestStreak: number;
   guessDistribution: number[] = [0,0,0,0,0,0];
   isDone: boolean;
+  clipboard: string;
 
   barChartOptions: ChartConfiguration['options'] = {    
     responsive: true,
@@ -51,11 +53,14 @@ export class StatusComponent {
     leftTime: this.getSecondsUntilMidNightLocalTime()
   };
 
-  constructor(public activeModal: NgbActiveModal, private messageService: MessageService) { 
+  constructor(public activeModal: NgbActiveModal, 
+              private messageService: MessageService,
+              private clipboardService: ClipboardService) { 
     this.playCount = 0;
     this.winCount = 0;
     this.currentStreak = 0;
     this.bestStreak = 0;
+    this.isDone = false;
   }
 
   ngOnInit(): void {
@@ -71,6 +76,7 @@ export class StatusComponent {
               this.isDone = false;
               continue; // don't count incomplete games
             } else {
+              this.generatePlay(key, stat);
               this.isDone = true;              
             }            
           } else {
@@ -83,8 +89,7 @@ export class StatusComponent {
 
       this.barChartData.datasets.push(
         { data: this.guessDistribution, label: 'Guess Distribution', backgroundColor: '#2c3e50' }
-      );
-      
+      );      
     }
   }
 
@@ -105,7 +110,7 @@ export class StatusComponent {
     console.log(event, active);
   }
 
-  public generateStats(stat:GameStat) {
+  public generateStats(stat:GameStat): void {
     // generate stat
     if (stat.isWin) {
       this.winCount++;
@@ -120,6 +125,10 @@ export class StatusComponent {
     }
   }
 
+  public share(): void {
+    this.clipboardService.copyFromContent(this.clipboard)
+  }
+
   private getSecondsUntilMidNightLocalTime(): number {
     const now = new Date();
     const night = new Date(
@@ -131,5 +140,38 @@ export class StatusComponent {
     var msTillMidnight = night.getTime() - now.getTime();
 
     return msTillMidnight / 1000;
+  }
+
+  private generatePlay(key:string, stat:GameStat): void {
+    this.clipboard = 'WordHex #' + key + ' ';
+    if (stat.isWin) {
+        this.clipboard += stat.guessNumber;
+        this.clipboard += '/6\n\n';
+    } else {
+      this.clipboard += String.fromCodePoint(0x1F648);
+      this.clipboard += String.fromCodePoint(0x1F649);
+      this.clipboard += String.fromCodePoint(0x1F64A);
+      this.clipboard += '\n\n';
+    }
+    
+    stat.board.forEach(row => {
+      row.cards.forEach(card => {
+        switch(card.hint) {
+          case 1:
+            this.clipboard += String.fromCodePoint(0x1F7E9);
+            this.clipboard += ' ';
+            break;
+          case 2: 
+            this.clipboard += String.fromCodePoint(0x1F7E7);
+            this.clipboard += ' ';
+            break;
+          default:
+            this.clipboard += String.fromCodePoint(0x2B1B);
+            this.clipboard += ' ';
+            break;
+        }        
+      });
+      this.clipboard += '\n';
+    });    
   }
 }

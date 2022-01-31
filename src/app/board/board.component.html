@@ -1,3 +1,13 @@
+<div class="alert alert-danger" role="alert" *ngIf="gameOver() && !isWin">
+    Failed to solve word of the day
+</div>
+<div class="alert alert-success" role="alert" *ngIf="gameOver() && isWin">
+    Successfully solved word of the day
+</div>
+<div class="alert alert-info" role="alert" *ngIf="isNotValidEntry">
+    This is not a valid entry
+</div>
+
 <div class="board">    
     <div class="text-center" *ngFor="let row of board">
         <ng-template [ngIf]="row.cards.length > 0" [ngIfElse]="blankTemplate">

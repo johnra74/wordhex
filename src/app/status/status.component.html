@@ -29,21 +29,26 @@
             [type]="barChartType">
         </canvas>
     </div>
-    <hr />
     <div *ngIf="playCount === 0">
         <p class="text-center">
         No Statistics available
         </p>
     </div>
-    <div class="d-flex justify-content-around panel" *ngIf="isDone">
-        <div class="text-center">
-            <h4>Next Word in</h4>
-            <h5><countdown #cd [config]="countDownCfg" (event)="handleCountDownEvent($event)"></countdown></h5>
+    <hr />
+    <div class="container" *ngIf="isDone">        
+        <div class="row">
+            <div class="col-6 text-center border-right">
+                <h4>Next Word in</h4>
+                <h5><countdown #cd [config]="countDownCfg" (event)="handleCountDownEvent($event)"></countdown></h5>
+            </div>
+            <div class="col-6 text-center pt-2">
+                <button (click)="share()" type="button" class="btn btn-primary btn-lg">Share <i class="bi bi-share"></i></button>        
+            </div>
         </div>
     </div>
     <div class="d-flex justify-content-around panel" *ngIf="!isDone">
         <div class="text-center">
             <h4>Game In Progess</h4>
-        </div>
+        </div>        
     </div>
 </div>

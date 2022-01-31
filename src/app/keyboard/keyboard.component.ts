@@ -19,7 +19,6 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
   keysUsed: string[];
   keysHit: string[];
   keysMiss: string[]
-  isDone: boolean = false;
 
   constructor(private messageService: MessageService, private modalService: NgbModal) {
     this.guess = '';
@@ -33,7 +32,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
       next: (result: Result) => {
         if (result.isSuccess) {
           this.modalService.open(StatusComponent);
-        } else {
+        } else if (!result.isNaW) {
           this.clearButtonThemes();
           for (let idx = 0; idx < result.hints.length; idx++) {
             const hint: number = result.hints[idx];
@@ -47,6 +46,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
               this.keysUsed = this.keysUsed.filter(item => item !== key);
             }
           }
+
           this.guess = '';
           this.updateButtonThemes();
         }
@@ -57,7 +57,6 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
 
     this.messageService.getReloadKeyBoardNotification().subscribe({
       next: (refresh:boolean) => {
-        this.isDone = refresh;
         this.reloadLastGame();
       },
       error: (e) => console.log(e),
@@ -96,7 +95,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
   }
 
   private onKeyPress(key: string) : void {
-    if (this.isDone) {
+    if (this.messageService.isDone()) {
       console.log('game #' + this.messageService.getCurrentDateKey() + ' has ended! please wait for next to be available');
     } else {
       const len = this.guess.length;

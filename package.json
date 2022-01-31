@@ -27,6 +27,7 @@
     "chart.js": "^3.7.0",
     "mdb-ui-kit": "^3.10.2",
     "ng2-charts": "^3.0.8",
+    "ngx-clipboard": "^15.0.1",
     "ngx-countdown": "^13.0.0",
     "primeicons": "^5.0.0",
     "primeng": "^13.1.0",

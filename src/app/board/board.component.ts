@@ -26,10 +26,14 @@ export interface Row {
 export class BoardComponent implements OnInit {
 
   rowNumber: number = 0;
-  board: Row[];
+  isWin: boolean;
+  isNotValidEntry: boolean;
+  board: Row[];  
   
   constructor(private messageService: MessageService) { 
     this.board = [];
+    this.isNotValidEntry = false;
+    this.isWin = false;
     for (let idx = 0; idx < 6; idx++) {
       const row = {cards: []} as Row;
       row.cards = [] as Card[];
@@ -53,14 +57,24 @@ export class BoardComponent implements OnInit {
 
     this.messageService.getResult().subscribe({
       next: (result:Result) => {
-        if (this.rowNumber === 6) {
+        if (this.rowNumber === 5 && !result.isNaW && !result.isSuccess) {
+          this.messageService.setDone(true);
           this.saveToLocalStorage(false, 7);     
+        } else if (result.isNaW) {
+          this.isNotValidEntry = true;
+          setTimeout(()=>{
+            this.isNotValidEntry = false;
+          },1000);
         } else {
           for (let idx = 0; idx < 6; idx++) {          
             this.board[this.rowNumber].cards[idx].hint = result.isSuccess ? 1 : result.hints[idx];
           }          
           this.rowNumber++;
           this.saveToLocalStorage(result.isSuccess, this.rowNumber);          
+          if (result.isSuccess) {
+            this.messageService.setDone(true);
+            this.isWin = true;
+          }
         }
       },
       error: (e) => console.log(e),
@@ -74,6 +88,10 @@ export class BoardComponent implements OnInit {
       error: (e) => console.log(e),
       complete: () => console.log('reload::done')
     });
+  }
+
+  public gameOver(): boolean {
+    return this.messageService.isDone();
   }
 
   private saveToLocalStorage(isWin:boolean, guessNumber:number): void {
@@ -94,6 +112,8 @@ export class BoardComponent implements OnInit {
       const stat:GameStat = JSON.parse(item) as GameStat;
       this.rowNumber = stat.guessNumber
       this.board = stat.board;
+      this.messageService.setDone(stat.isWin || !stat.inProgress || stat.guessNumber == 7);
+      this.isWin = stat.isWin;
     }
   }
 }

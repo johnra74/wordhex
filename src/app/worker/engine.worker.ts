@@ -11,6 +11,7 @@ interface Command {
 
 interface Result {
   isSuccess: boolean;
+  isNaW: boolean;
   hints: number[];
 }
 
@@ -23,14 +24,14 @@ addEventListener('message', (event) => {
       puzzleKey = validWordList.substring(((num - 1) * 7) + 1, num * 7);  
       break;
   
-    case 'isValidWord':
-      let isValidWord = false;
-      const guess: string = cmd.payload.toLowerCase();
+    case 'isValidWord':      
+      const guess: string = cmd.payload.toLowerCase();      
       if (validWordList.indexOf(guess) > -1) {
         // is valid word
-        isValidWord = true;        
-      } 
-      postMessage(match(guess));      
+        postMessage(match(guess));      
+      } else {
+        postMessage({isNaW: true} as Result)        
+      }
       break;
       
     default:
