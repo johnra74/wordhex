@@ -24,6 +24,7 @@ export class StatusComponent {
   guessDistribution: number[] = [0,0,0,0,0,0];
   isDone: boolean;
   clipboard: string;
+  isClipboardSuccess: boolean;
 
   barChartOptions: ChartConfiguration['options'] = {    
     responsive: true,
@@ -61,6 +62,7 @@ export class StatusComponent {
     this.currentStreak = 0;
     this.bestStreak = 0;
     this.isDone = false;
+    this.isClipboardSuccess = false;
   }
 
   ngOnInit(): void {
@@ -125,8 +127,22 @@ export class StatusComponent {
     }
   }
 
-  public share(): void {
-    this.clipboardService.copyFromContent(this.clipboard)
+  public share(): void {    
+    if (navigator.share) {
+      navigator.share( {
+        title: 'WordHex',
+        text: this.clipboard,
+        url: 'https://www.wordhex.app'
+      } )
+      .then(() => console.log('share success!'))
+      .catch(e => console.log('share failed!', e));
+    } else {
+      this.clipboardService.copyFromContent(this.clipboard);
+      this.isClipboardSuccess = true;
+      setTimeout(()=>{
+        this.isClipboardSuccess = false;
+      },1000);
+    }
   }
 
   private getSecondsUntilMidNightLocalTime(): number {
