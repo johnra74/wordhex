@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootswatch/dist/cosmo/variables";
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+/* Importing Bootstrap-ICON SCSS file. */
+@import '~bootstrap-icons/font/bootstrap-icons.scss';
+
+@import "~bootswatch/dist/cosmo/bootswatch";
+
+
+
+.selectedGrey {
+    background-color: gray !important;
+}
+
+.selectedGreen {
+    background-color: #4caf50 !important;
+    color: white !important;
+}
+
+.selectedUsed {
+    background-color: #2780e3 !important;
+    color: white;
+}
+
+.selectedHit {
+    background-color: #3fb618 !important;
+    color: white;
+}
+
+.selectedMiss {
+    background-color: #ff7518 !important;
+    color: white;
+}
+
+.enteredInvalidWord {
+    background-color: #ff0039 !important;
+    color: white;
+}
+

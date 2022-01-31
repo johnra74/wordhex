@@ -1,0 +1,29 @@
+@media (max-width: 575.98px) { 
+    .btn-square {
+        height: 45px !important;
+        width: 45px !important;
+    }
+}
+
+@media (min-width: 576px) { 
+    .btn-square {
+        height: 50px !important;
+        width: 50px !important;
+    }
+}
+
+@media (min-width: 768px) { 
+    .btn-square {
+        height: 60px !important;
+        width: 60px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .btn-square {
+        height: 75px !important;
+        width: 75px !important;
+    }
+}
+
+

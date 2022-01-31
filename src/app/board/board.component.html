@@ -1,0 +1,66 @@
+<div class="alert alert-danger" role="alert" *ngIf="gameOver() && !isWin">
+    Failed to solve word of the day
+</div>
+<div class="alert alert-success" role="alert" *ngIf="gameOver() && isWin">
+    Successfully solved word of the day
+</div>
+<div class="alert alert-info" role="alert" *ngIf="isNotValidEntry">
+    This is not a valid entry
+</div>
+
+<div class="board">    
+    <div class="text-center" *ngFor="let row of board">
+        <ng-template [ngIf]="row.cards.length > 0" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[0].hint === 3" [class.btn-warning]="row.cards[0].hint === 2" [class.btn-success]="row.cards[0].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[0].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[0].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[0].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[0].key }} </h4>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="row.cards.length > 1" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[1].hint === 3" [class.btn-warning]="row.cards[1].hint === 2" [class.btn-success]="row.cards[1].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[1].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[1].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[1].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[1].key }} </h4>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="row.cards.length > 2" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[2].hint === 3" [class.btn-warning]="row.cards[2].hint === 2" [class.btn-success]="row.cards[2].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[2].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[2].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[2].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[2].key }} </h4>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="row.cards.length > 3" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[3].hint === 3" [class.btn-warning]="row.cards[3].hint === 2" [class.btn-success]="row.cards[3].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[3].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[3].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[3].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[3].key }} </h4>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="row.cards.length > 4" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[4].hint === 3" [class.btn-warning]="row.cards[4].hint === 2" [class.btn-success]="row.cards[4].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[4].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[4].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[4].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[4].key }} </h4>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="row.cards.length > 5" [ngIfElse]="blankTemplate">
+            <div [class.btn-primary]="row.cards[5].hint === 3" [class.btn-warning]="row.cards[5].hint === 2" [class.btn-success]="row.cards[5].hint === 1" class="btn btn-square m-1">
+                <h1 class="d-none d-xl-inline d-lg-inline"> {{ row.cards[5].key }} </h1>
+                <h2 class="d-none d-md-inline d-lg-none"> {{ row.cards[5].key }} </h2>                
+                <h3 class="d-none d-sm-inline d-md-none"> {{ row.cards[5].key }} </h3>
+                <h4 class="d-inline d-sm-none"> {{ row.cards[5].key }} </h4>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<ng-template #blankTemplate>
+    <div class="btn btn-dark btn-square m-1 display-2 front"> &nbsp;</div>
+</ng-template>
