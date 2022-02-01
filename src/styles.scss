@@ -9,7 +9,9 @@
 
 @import "~bootswatch/dist/cosmo/bootswatch";
 
-
+body {
+    touch-action: manipulation !important;
+}
 
 .selectedGrey {
     background-color: gray !important;
