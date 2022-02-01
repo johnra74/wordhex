@@ -106,7 +106,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
         } else if (key === '{bksp}'){
           this.guess = this.guess.substring(0, len - 1);
           this.messageService.sendKey('{bksp}');
-          // this.resetButtonThemes();
+          this.resetButtonThemes(); // disable check
           this.clearButtonThemes();
           this.keysUsed.pop()
           this.updateButtonThemes()
@@ -118,7 +118,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
           this.clearButtonThemes();
           this.keysUsed.pop();
           this.updateButtonThemes();
-        } else if (key !== '{bksp}'){
+        } else if (key !== '{bksp}' && key !== '{check}'){
           this.clearButtonThemes();
           this.keysUsed.push(key);
           this.updateButtonThemes();
