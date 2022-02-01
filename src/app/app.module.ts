@@ -12,6 +12,7 @@ import { BoardComponent } from './board/board.component';
 import { KeyboardComponent } from './keyboard/keyboard.component';
 import { StatusComponent } from './status/status.component';
 import { AboutComponent } from './about/about.component';
+import { RickedComponent } from './ricked/ricked.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AboutComponent } from './about/about.component';
     BoardComponent,
     KeyboardComponent,
     StatusComponent,
-    AboutComponent
+    AboutComponent,
+    RickedComponent
   ],
   imports: [
     BrowserModule,

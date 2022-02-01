@@ -1,0 +1,11 @@
+<div class="modal-header bg-primary">
+    <h4 class="modal-title text-white"> {{ key === 'O91DT1pR1ew' ? "Give Up?" : "7-Minute Abs" }} </h4>
+    <button type="button" class="close text-white" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="iframe-container" >
+        <iframe [src]="getUrl()" title="YouTube video player" frameborder="0" allow="accelerometer; muted; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>

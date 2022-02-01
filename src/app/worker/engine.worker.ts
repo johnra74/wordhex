@@ -41,7 +41,11 @@ addEventListener('message', (event) => {
   
     case 'isValidWord':      
       const guess: string = cmd.payload.toLowerCase();      
-      if (validWordList.indexOf(guess) > -1) {
+      if (guess === 'rollin' || guess === 'giveup') {
+        postMessage({type: 'easter egg', action: 'O91DT1pR1ew'});
+      } else if (guess === 'johnra' || guess === 'sevenm') {
+        postMessage({type: 'easter egg', action: 'rnso4nfdM9w'});
+      } else if (validWordList.indexOf(guess) > -1) {
         // is valid word
         postMessage(match(guess));      
       } else {
