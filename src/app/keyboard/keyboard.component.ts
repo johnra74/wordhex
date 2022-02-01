@@ -33,6 +33,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
         if (result.isSuccess) {
           this.modalService.open(StatusComponent);
         } else if (!result.isNaW) {
+          this.resetButtonThemes(); // disable check
           this.clearButtonThemes();
           for (let idx = 0; idx < result.hints.length; idx++) {
             const hint: number = result.hints[idx];
@@ -47,9 +48,9 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
             }
           }
 
-          this.guess = '';
+          this.guess = '';          
           this.updateButtonThemes();
-        }
+        } 
       },          
       error: (e) => console.log(e),
       complete: () => console.log('result::done')
