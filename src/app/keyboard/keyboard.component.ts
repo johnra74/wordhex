@@ -106,19 +106,22 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
         } else if (key === '{bksp}'){
           this.guess = this.guess.substring(0, len - 1);
           this.messageService.sendKey('{bksp}');
-          this.resetButtonThemes();
+          // this.resetButtonThemes();
+          this.clearButtonThemes();
+          this.keysUsed.pop()
+          this.updateButtonThemes()
         }
       } else {
         if (key === '{bksp}' && len > 0) {
           this.guess = this.guess.substring(0, len - 1);
           this.messageService.sendKey('{bksp}');
           this.clearButtonThemes();
-          this.keysUsed.pop()
-          this.updateButtonThemes()
+          this.keysUsed.pop();
+          this.updateButtonThemes();
         } else if (key !== '{bksp}'){
           this.clearButtonThemes();
-          this.keysUsed.push(key)
-          this.updateButtonThemes()
+          this.keysUsed.push(key);
+          this.updateButtonThemes();
           this.messageService.sendKey(key);
           this.guess += key;
         }
