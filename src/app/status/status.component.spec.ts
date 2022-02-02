@@ -9,7 +9,6 @@ import { MessageService } from '../services/message.service'
 import { StatusComponent } from './status.component';
 import { GameStat } from '../board/board.component';
 
-
 describe('StatusComponent', () => {
   let component: StatusComponent;
   let fixture: ComponentFixture<StatusComponent>;
@@ -100,5 +99,78 @@ describe('StatusComponent', () => {
     spy.calls.reset();
     spy.calls.reset();
   })
+
+  it('given valid component when navigator supports share and promise is resolved then setup share', () => {
+    let called = false;
+    window.navigator.share = (data:any) => new Promise(function(resolve) : void {
+      called = true;
+      resolve();
+    })
+
+    component.share();    
+
+    expect(called).toBeTrue();
+  })
+
+  it('given valid component when navigator supports share and promise is rejected then setup share', () => {
+    let called = false;
+    window.navigator.share = (data:any) => new Promise(function(reject) : void {
+      called = true;
+      reject();
+    })
+
+    component.share();    
+
+    expect(called).toBeTrue();
+  })
+
+  it('given valid component when navigator not supported', () => {
+    `window.navigator['share'] = false`;
+
+    component.share();    
+  })
+
+  it('given valid key and data from localstorage when data exists then return gamestat', () => {
+    const spy = spyOn(mockService, 'getCurrentDateKey').and.returnValue('20200202');
+
+    component.loadLastStatFromLocalStorage('20200202', '{"isWin":true,"inProgress":false,"guessNumber":2,"board":[{"cards":[{"key":"S","hint":3},{"key":"E","hint":1},{"key":"N","hint":3},{"key":"I","hint":3},{"key":"O","hint":3},{"key":"R","hint":3}]},{"cards":[{"key":"B","hint":1},{"key":"E","hint":1},{"key":"A","hint":1},{"key":"U","hint":2},{"key":"T","hint":1},{"key":"Y","hint":1}]},{"cards":[]},{"cards":[]},{"cards":[]},{"cards":[]}]}');
+
+    expect(component.currentStreak).toEqual(1);
+    expect(component.playCount).toEqual(1);
+    expect(component.winCount).toEqual(1);
+    expect(component.bestStreak).toEqual(1);
+  });
+
+  it('given invalid key and data from localstorage when data does not exists then return zero stat', () => {
+    component.loadLastStatFromLocalStorage('foobar', '{}');
+
+    expect(component.currentStreak).toEqual(0);
+    expect(component.playCount).toEqual(0);
+    expect(component.winCount).toEqual(0);
+    expect(component.bestStreak).toEqual(0);
+  });
+
+  it('given valid key and data from localstorage when game is in progres then return gamestat', () => {
+    const spy = spyOn(mockService, 'getCurrentDateKey').and.returnValue('20200202');
+
+    component.loadLastStatFromLocalStorage('20200202', '{"isWin":true,"inProgress":true,"guessNumber":2,"board":[{"cards":[{"key":"S","hint":3},{"key":"E","hint":1},{"key":"N","hint":3},{"key":"I","hint":3},{"key":"O","hint":3},{"key":"R","hint":2}]},{"cards":[{"key":"B","hint":1},{"key":"E","hint":1},{"key":"A","hint":1},{"key":"U","hint":1},{"key":"T","hint":1},{"key":"Y","hint":1}]},{"cards":[]},{"cards":[]},{"cards":[]},{"cards":[]}]}');
+    
+    expect(component.currentStreak).toEqual(0);
+    expect(component.playCount).toEqual(0);
+    expect(component.winCount).toEqual(0);
+    expect(component.bestStreak).toEqual(0);
+  });
+
+  it('given valid key and data from localstorage when game is in progres then return gamestat', () => {
+    const spy = spyOn(mockService, 'getCurrentDateKey').and.returnValue('20200201');
+
+    component.loadLastStatFromLocalStorage('20200202', '{"isWin":true,"inProgress":true,"guessNumber":2,"board":[{"cards":[{"key":"S","hint":3},{"key":"E","hint":1},{"key":"N","hint":3},{"key":"I","hint":3},{"key":"O","hint":3},{"key":"R","hint":3}]},{"cards":[{"key":"B","hint":1},{"key":"E","hint":1},{"key":"A","hint":1},{"key":"U","hint":1},{"key":"T","hint":1},{"key":"Y","hint":1}]},{"cards":[]},{"cards":[]},{"cards":[]},{"cards":[]}]}');
+    
+    expect(component.currentStreak).toEqual(0);
+    expect(component.playCount).toEqual(0);
+    expect(component.winCount).toEqual(0);
+    expect(component.bestStreak).toEqual(0);
+  });
+
 
 });
