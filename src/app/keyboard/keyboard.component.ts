@@ -41,6 +41,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
 
             if (hint === 1) {              
               this.keysHit.push(key);
+              this.keysMiss = this.keysMiss.filter(item => item !== key);
               this.keysUsed = this.keysUsed.filter(item => item !== key);
             } else if (hint === 2) {
               this.keysMiss.push(key);
@@ -172,9 +173,9 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
       const board:Row[] = stat.board;
       board.forEach( (row:Row) => {
         row.cards.forEach( (card:Card) => {
-          if (card.hint === 3) {
+          if (card.hint === 3 && this.keysMiss.indexOf(card.key) === -1) {
             this.keysUsed.push(card.key);
-          } else if (card.hint === 2) {
+          } else if (card.hint === 2 && this.keysHit.indexOf(card.key) === -1) {
             this.keysMiss.push(card.key);
           } else if (card.hint === 1) {
             this.keysHit.push(card.key);
