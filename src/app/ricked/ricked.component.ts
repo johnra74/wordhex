@@ -17,6 +17,6 @@ export class RickedComponent {
   }
 
   getUrl(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.key + '?rel=0&amp;autoplay=1&mute=1');
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.key + '?autoplay=1&mute=1');
   }
 }

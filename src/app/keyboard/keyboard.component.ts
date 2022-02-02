@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import Keyboard from 'simple-keyboard';
@@ -93,6 +93,17 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
     
     // initialize
     this.messageService.init();
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) : void {
+    if((/^[a-zA-Z]{1}$/).test(event.key)){
+      this.onKeyPress(event.key.toUpperCase());
+    } else if (event.code === 'Backspace' || event.code === 'Delete') {
+      this.onKeyPress("{bksp}");
+    } else if (event.code === 'Enter') {
+      this.onKeyPress("{check}");
+    }
   }
 
   private onKeyPress(key: string) : void {
