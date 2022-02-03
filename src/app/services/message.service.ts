@@ -16,6 +16,11 @@ export interface Result {
   hints: number[];
 }
 
+export interface Easter {
+  type: string,
+  action: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +32,8 @@ export class MessageService {
   
   private reloadBoardSubject = new Subject<boolean>();
   private reloadKeyBoardSubject = new Subject<boolean>();
+
+  private easterEggSubject = new Subject<string>();
   
   private gameEngine: Worker;
   private isGameOver: boolean;
@@ -41,8 +48,12 @@ export class MessageService {
         new Worker(new URL('../worker/engine.worker', import.meta.url),
                    { type: 'module' });
       this.gameEngine.onmessage = (event) => {
-        this.validAndMatchSubject.next(event.data as Result);
-      }
+        if (typeof event.data === 'object' && typeof event.data['type'] === 'undefined' ) {
+          this.validAndMatchSubject.next(event.data as Result);
+        } else {
+          this.easterEggSubject.next(event.data['action']);
+        }        
+      };
     }
 
     // check if user can play today..
@@ -80,6 +91,10 @@ export class MessageService {
     this.isGameOver = flag;
   }
 
+  getEasterEgg(): Observable<string> {
+    return this.easterEggSubject.asObservable();
+  }
+
   getReloadBoardNotification(): Observable<boolean> {
     return this.reloadBoardSubject.asObservable();
   }
@@ -101,6 +116,10 @@ export class MessageService {
 
     const key = yyyy + mm + dd;
     return key;
+  }
+
+  sendResult(result:Result): void {
+    this.validAndMatchSubject.next(result);
   }
 
   getResult(): Observable<Result> {

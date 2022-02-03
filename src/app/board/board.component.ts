@@ -45,10 +45,10 @@ export class BoardComponent implements OnInit {
     this.messageService.getKey().subscribe({
       next: (letter:string) => {
         if (letter === "{bksp}") {
-          this.board[this.rowNumber].cards.pop();
+          this.board[this.rowNumber]?.cards.pop();
         } else {
           let card:Card = { key: letter, hint: 3 } as Card;
-          this.board[this.rowNumber].cards.push(card);
+          this.board[this.rowNumber]?.cards.push(card);
         }
       },
       error: (e) => console.log(e),
@@ -67,7 +67,9 @@ export class BoardComponent implements OnInit {
           },1000);
         } else {
           for (let idx = 0; idx < 6; idx++) {          
-            this.board[this.rowNumber].cards[idx].hint = result.isSuccess ? 1 : result.hints[idx];
+            if (this.board.length > this.rowNumber) {
+              this.board[this.rowNumber].cards[idx].hint = result.isSuccess ? 1 : result.hints[idx];
+            }
           }          
           this.rowNumber++;
           this.saveToLocalStorage(result.isSuccess, this.rowNumber);          

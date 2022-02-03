@@ -24,6 +24,7 @@ export class StatusComponent {
   guessDistribution: number[] = [0,0,0,0,0,0];
   isDone: boolean;
   clipboard: string;
+  isClipboardSuccess: boolean;
 
   barChartOptions: ChartConfiguration['options'] = {    
     responsive: true,
@@ -61,30 +62,16 @@ export class StatusComponent {
     this.currentStreak = 0;
     this.bestStreak = 0;
     this.isDone = false;
+    this.isClipboardSuccess = false;
   }
 
   ngOnInit(): void {
     if (localStorage.length > 0) {
       for (var key in localStorage) {
-        const item = localStorage.getItem(key);                
-        if (typeof item === 'string' && item !== '') { 
-          const stat:GameStat = JSON.parse(item) as GameStat;
-          if (isNaN(parseInt(key))) {
-            continue; // don't count
-          } else if (key === this.messageService.getCurrentDateKey()) {
-            if (stat.inProgress) {
-              this.isDone = false;
-              continue; // don't count incomplete games
-            } else {
-              this.generatePlay(key, stat);
-              this.isDone = true;              
-            }            
-          } else {
-            if (stat.inProgress) continue; // don't count incomplete games            
-          }        
-          this.playCount++;
-          this.generateStats(stat);
-        }      
+        const item = localStorage.getItem(key);  
+        if (typeof item === 'string' && item !== '') {               
+          this.loadLastStatFromLocalStorage(key, item);      
+        }
       }
 
       this.barChartData.datasets.push(
@@ -125,8 +112,41 @@ export class StatusComponent {
     }
   }
 
-  public share(): void {
-    this.clipboardService.copyFromContent(this.clipboard)
+  public share(): void {    
+    if (navigator.share) {
+      navigator.share( {
+        title: 'WordHex',
+        text: this.clipboard,
+        url: 'https://www.wordhex.app'
+      } )
+      .then(() => console.log('share success!'))
+      .catch(e => console.log('share failed!', e));
+    } else {
+      this.clipboardService.copyFromContent(this.clipboard);
+      this.isClipboardSuccess = true;
+      setTimeout(()=>{
+        this.isClipboardSuccess = false;
+      },1000);
+    }
+  }
+
+  public loadLastStatFromLocalStorage(key: string, item: string): void {
+      const stat:GameStat = JSON.parse(item) as GameStat;
+      if (isNaN(parseInt(key))) {
+        return; // don't count
+      } else if (key === this.messageService.getCurrentDateKey()) {
+        if (stat.inProgress) {
+          this.isDone = false;
+          return; // don't count incomplete games
+        } else {
+          this.generatePlay(key, stat);
+          this.isDone = true;              
+        }            
+      } else {
+        if (stat.inProgress) return; // don't count incomplete games            
+      }        
+      this.playCount++;
+      this.generateStats(stat);    
   }
 
   private getSecondsUntilMidNightLocalTime(): number {

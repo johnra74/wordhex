@@ -76,19 +76,6 @@ describe('KeyboardComponent', () => {
     expect(mockService.validateAndMatch).toHaveBeenCalled();
   });
 
-  it('given component when result is success then status modal should open and isDone is false', () => {
-    const mockResultSubject = new Subject<Result>();
-    const mockReloadSubject = new Subject<boolean>();
-    spyOn(mockService, 'getResult').and.returnValue(mockResultSubject.asObservable());
-    spyOn(mockService, 'getReloadKeyBoardNotification').and.returnValue(mockReloadSubject.asObservable());
-    
-    component.ngOnInit();
-
-    mockResultSubject.next({ isSuccess: true } as Result);    
-
-    expect(component.isDone).toEqual(false);
-  })
-
   it('given component when result is not a success and hint is empty then status modal should have been called', () => {
     const mockResultSubject = new Subject<Result>();
     const mockReloadSubject = new Subject<boolean>();
@@ -97,7 +84,7 @@ describe('KeyboardComponent', () => {
     
     component.ngOnInit();
 
-    mockResultSubject.next({ isSuccess: false, hints: [] } as Result);    
+    mockResultSubject.next({ isSuccess: false, isNaW: true, hints: [] } as Result);    
 
     expect(component.guess).toEqual('');
   })
@@ -134,19 +121,6 @@ describe('KeyboardComponent', () => {
     expect(component.keysHit.length).toEqual(0);
     expect(component.keysUsed.length).toEqual(5);
     expect(component.keysMiss.length).toEqual(1);
-  })
-
-  it('given component when result is success then status modal should show', () => {
-    const mockResultSubject = new Subject<Result>();
-    const mockReloadSubject = new Subject<boolean>();
-    spyOn(mockService, 'getResult').and.returnValue(mockResultSubject.asObservable());
-    spyOn(mockService, 'getReloadKeyBoardNotification').and.returnValue(mockReloadSubject.asObservable());
-    
-    component.ngOnInit();
-
-    mockReloadSubject.next(true);
-
-    expect(component.isDone).toEqual(true);
   })
 
   it('given component when all result observable throws error then log', () => {

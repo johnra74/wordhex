@@ -5,6 +5,9 @@
     </button>
 </div>
 <div class="modal-body">
+    <div class="alert alert-info" role="alert" *ngIf="isClipboardSuccess">
+        Game Board copied!
+    </div>
     <div class="d-flex justify-content-around panel">
         <div class="text-center">
             <h3>{{ playCount }}</h3>

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import Keyboard from 'simple-keyboard';
@@ -33,6 +33,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
         if (result.isSuccess) {
           this.modalService.open(StatusComponent);
         } else if (!result.isNaW) {
+          this.resetButtonThemes(); // disable check
           this.clearButtonThemes();
           for (let idx = 0; idx < result.hints.length; idx++) {
             const hint: number = result.hints[idx];
@@ -40,6 +41,7 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
 
             if (hint === 1) {              
               this.keysHit.push(key);
+              this.keysMiss = this.keysMiss.filter(item => item !== key);
               this.keysUsed = this.keysUsed.filter(item => item !== key);
             } else if (hint === 2) {
               this.keysMiss.push(key);
@@ -47,9 +49,9 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
             }
           }
 
-          this.guess = '';
+          this.guess = '';          
           this.updateButtonThemes();
-        }
+        } 
       },          
       error: (e) => console.log(e),
       complete: () => console.log('result::done')
@@ -94,6 +96,17 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
     this.messageService.init();
   }
 
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) : void {
+    if((/^[a-zA-Z]{1}$/).test(event.key)){
+      this.onKeyPress(event.key.toUpperCase());
+    } else if (event.code === 'Backspace' || event.code === 'Delete') {
+      this.onKeyPress("{bksp}");
+    } else if (event.code === 'Enter') {
+      this.onKeyPress("{check}");
+    }
+  }
+
   private onKeyPress(key: string) : void {
     if (this.messageService.isDone()) {
       console.log('game #' + this.messageService.getCurrentDateKey() + ' has ended! please wait for next to be available');
@@ -106,19 +119,22 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
         } else if (key === '{bksp}'){
           this.guess = this.guess.substring(0, len - 1);
           this.messageService.sendKey('{bksp}');
-          this.resetButtonThemes();
+          this.resetButtonThemes(); // disable check
+          this.clearButtonThemes();
+          this.keysUsed.pop()
+          this.updateButtonThemes()
         }
       } else {
         if (key === '{bksp}' && len > 0) {
           this.guess = this.guess.substring(0, len - 1);
           this.messageService.sendKey('{bksp}');
           this.clearButtonThemes();
-          this.keysUsed.pop()
-          this.updateButtonThemes()
-        } else if (key !== '{bksp}'){
+          this.keysUsed.pop();
+          this.updateButtonThemes();
+        } else if (key !== '{bksp}' && key !== '{check}'){
           this.clearButtonThemes();
-          this.keysUsed.push(key)
-          this.updateButtonThemes()
+          this.keysUsed.push(key);
+          this.updateButtonThemes();
           this.messageService.sendKey(key);
           this.guess += key;
         }
@@ -157,9 +173,9 @@ export class KeyboardComponent implements AfterViewInit, OnInit {
       const board:Row[] = stat.board;
       board.forEach( (row:Row) => {
         row.cards.forEach( (card:Card) => {
-          if (card.hint === 3) {
+          if (card.hint === 3 && this.keysMiss.indexOf(card.key) === -1) {
             this.keysUsed.push(card.key);
-          } else if (card.hint === 2) {
+          } else if (card.hint === 2 && this.keysHit.indexOf(card.key) === -1) {
             this.keysMiss.push(card.key);
           } else if (card.hint === 1) {
             this.keysHit.push(card.key);
