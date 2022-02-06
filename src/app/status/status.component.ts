@@ -102,7 +102,7 @@ export class StatusComponent {
     if (stat.isWin) {
       this.winCount++;
       this.currentStreak++;
-      this.guessDistribution[stat.guessNumber]++;
+      this.guessDistribution[stat.guessNumber - 1]++;
 
       if (this.currentStreak > this.bestStreak) {
         this.bestStreak = this.currentStreak;
@@ -116,8 +116,7 @@ export class StatusComponent {
     if (navigator.share) {
       navigator.share( {
         title: 'WordHex',
-        text: this.clipboard,
-        url: 'https://www.wordhex.app'
+        text: this.clipboard + '\n\nhttps://www.wordhex.app'
       } )
       .then(() => console.log('share success!'))
       .catch(e => console.log('share failed!', e));

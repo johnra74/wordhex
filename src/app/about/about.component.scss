@@ -1,4 +1,29 @@
-.btn-square {
-    height: 50px !important;
-    width: 50px !important;
+@media (max-width: 575.98px) { // xs
+    .btn-square {
+        height: 35px !important;
+        width: 35px !important;
+        margin: 1px 1px 1px 1px !important;
+        padding: 2px 1px 2px 1px !important;
+    }
+}
+
+@media (min-width: 576px) { // sm
+    .btn-square {
+        height: 50px !important;
+        width: 50px !important;
+    }
+}
+
+@media (min-width: 768px) { // md
+    .btn-square {
+        height: 60px !important;
+        width: 60px !important;
+    }
+}
+
+@media (min-width: 992px) { // lg
+    .btn-square {
+        height: 75px !important;
+        width: 75px !important;
+    }
 }
