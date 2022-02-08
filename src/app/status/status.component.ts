@@ -116,7 +116,7 @@ export class StatusComponent {
     if (navigator.share) {
       navigator.share( {
         title: 'WordHex',
-        text: this.clipboard + '\n\nhttps://www.wordhex.app'
+        text: this.clipboard
       } )
       .then(() => console.log('share success!'))
       .catch(e => console.log('share failed!', e));
