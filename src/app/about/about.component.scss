@@ -1,4 +1,16 @@
-.btn-square {
-    height: 50px !important;
-    width: 50px !important;
+@media (max-width: 575.98px) { // xs
+    .btn-square {
+        height: 35px !important;
+        width: 35px !important;
+        margin: 1px 1px 1px 1px !important;
+        padding: 2px 1px 2px 1px !important;
+    }
 }
+
+@media (min-width: 576px) { // sm
+    .btn-square {
+        height: 50px !important;
+        width: 50px !important;
+    }
+}
+

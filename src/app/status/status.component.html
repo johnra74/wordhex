@@ -14,8 +14,9 @@
             <p class="fs-3">Play Count</p>
         </div>
         <div class="text-center">
-            <h3>{{ winCount }}</h3>
-            <p class="fs-3">Win Count</p></div>
+            <h3 *ngIf="playCount !== 0">{{ winCount / playCount | percent }}</h3>
+            <h3 *ngIf="playCount === 0">0 %</h3>
+            <p class="fs-3">Win Pct</p></div>
         <div class="text-center">
             <h3>{{ currentStreak }}</h3>
             <p class="fs-3">Current Streak</p>
