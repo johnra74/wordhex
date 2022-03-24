@@ -97,6 +97,7 @@ export class BoardComponent implements OnInit {
   }
 
   private saveToLocalStorage(isWin:boolean, guessNumber:number): void {
+    const key:string = this.messageService.getCurrentDateKey();
     let stat:GameStat;
     if (guessNumber === 7) {
       stat = { isWin: false, inProgress: false, guessNumber: guessNumber, board: this.board };
@@ -105,7 +106,7 @@ export class BoardComponent implements OnInit {
     } else {
       stat = { inProgress: true, guessNumber: guessNumber, board: this.board } as GameStat;
     }
-    localStorage.setItem(this.messageService.getCurrentDateKey(), JSON.stringify(stat));
+    localStorage.setItem(key, JSON.stringify(stat));
   }
 
   private reloadLastGame(): void {

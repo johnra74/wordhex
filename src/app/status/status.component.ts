@@ -67,12 +67,16 @@ export class StatusComponent {
 
   ngOnInit(): void {
     if (localStorage.length > 0) {
+      const keyList: string[] = [];
       for (var key in localStorage) {
         const item = localStorage.getItem(key);  
         if (typeof item === 'string' && item !== '') {               
-          this.loadLastStatFromLocalStorage(key, item);      
+          if (this.loadLastStatFromLocalStorage(key, item)) keyList.push(key);
         }
       }
+
+      this.generateBestStreakCount(keyList.sort());
+      this.generateCurrentStreakCount();
 
       this.barChartData.datasets.push(
         { data: this.guessDistribution, label: 'Guess Distribution', backgroundColor: '#2c3e50' }
@@ -101,14 +105,7 @@ export class StatusComponent {
     // generate stat
     if (stat.isWin) {
       this.winCount++;
-      this.currentStreak++;
       this.guessDistribution[stat.guessNumber - 1]++;
-
-      if (this.currentStreak > this.bestStreak) {
-        this.bestStreak = this.currentStreak;
-      }
-    } else {            
-      this.currentStreak = 0;          
     }
   }
 
@@ -129,23 +126,65 @@ export class StatusComponent {
     }
   }
 
-  public loadLastStatFromLocalStorage(key: string, item: string): void {
+  public loadLastStatFromLocalStorage(key: string, item: string): boolean {
       const stat:GameStat = JSON.parse(item) as GameStat;
+
       if (isNaN(parseInt(key))) {
-        return; // don't count
+        return false; // don't count
       } else if (key === this.messageService.getCurrentDateKey()) {
         if (stat.inProgress) {
           this.isDone = false;
-          return; // don't count incomplete games
+          return false; // don't count incomplete games
         } else {
           this.generatePlay(key, stat);
           this.isDone = true;              
         }            
       } else {
-        if (stat.inProgress) return; // don't count incomplete games            
+        if (stat.inProgress) return false; // don't count incomplete games            
       }        
-      this.playCount++;
-      this.generateStats(stat);    
+      this.playCount++;      
+      this.generateStats(stat);
+
+      return stat.isWin;
+  }
+
+  private generateBestStreakCount(keyList: string[]): void {
+    let winCount: number = 1;
+    if (keyList.length > 0) this.bestStreak = 1;
+
+    for (var i = 1; i < keyList.length; i++) {
+      let priorKey: number = parseInt(keyList[i]) - 1;
+      if (keyList.indexOf(priorKey.toString()) > -1) {
+        winCount++;
+      } else {
+        winCount = 1;
+      }
+
+      if (winCount > this.bestStreak) this.bestStreak = winCount;
+    }
+
+  }
+
+  private generateCurrentStreakCount(): void {
+    let statKey: string = this.messageService.getCurrentDateKey();
+    let isNotFirstRun: boolean = false;
+    let cnt: number = -1;
+    while (true) {
+      const item = localStorage.getItem(statKey);  
+      if (typeof item === 'string' && item !== '') {  
+        let stat:GameStat = JSON.parse(item) as GameStat;
+        if (stat.isWin) {
+          this.currentStreak++;
+        } else if (!stat.inProgress) {          
+          break;
+        }
+      } else if (isNotFirstRun) {
+        break;
+      }
+      
+      isNotFirstRun = true;  
+      statKey = this.messageService.generateKey(cnt--);
+    }
   }
 
   private getSecondsUntilMidNightLocalTime(): number {

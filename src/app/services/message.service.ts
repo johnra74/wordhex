@@ -109,7 +109,13 @@ export class MessageService {
   }
 
   getCurrentDateKey(): string {
+    return this.generateKey(0);
+  }
+
+  generateKey(numOfDays: number): string {
     const today = new Date();
+    today.setDate(today.getDate() + numOfDays);
+
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = today.getFullYear();
