@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, timeout } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { MessageService } from './services/message.service'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,17 +15,16 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         AppComponent
-      ],
-      providers: [ NgbModal,
-        { provider: MessageService, 
-          useValue: jasmine.createSpyObj<MessageService>('MessageService', ['isReady', 'reloadLastGame']) }
-      ],
-      imports: [HttpClientTestingModule]
-    }).compileComponents();
+    ],
+    imports: [],
+    providers: [NgbModal,
+        { provider: MessageService,
+            useValue: jasmine.createSpyObj<MessageService>('MessageService', ['isReady', 'reloadLastGame']) }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
-    mockService = TestBed.get(MessageService);
+    mockService = TestBed.inject(MessageService);
   });
 
   beforeEach(() => {

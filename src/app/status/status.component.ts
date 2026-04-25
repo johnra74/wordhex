@@ -10,9 +10,10 @@ import { GameStat, Row, Card } from '../board/board.component'
 import { MessageService } from '../services/message.service'
 
 @Component({
-  selector: 'status-modal',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss']
+    selector: 'status-modal',
+    templateUrl: './status.component.html',
+    styleUrls: ['./status.component.scss'],
+    standalone: false
 })
 export class StatusComponent {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
