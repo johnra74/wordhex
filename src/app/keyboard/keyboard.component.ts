@@ -8,9 +8,10 @@ import { StatusComponent } from '../status/status.component';
 import { GameStat, Row, Card } from '../board/board.component';
 
 @Component({
-  selector: 'app-keyboard',
-  templateUrl: './keyboard.component.html',
-  styleUrls: ['./keyboard.component.scss']
+    selector: 'app-keyboard',
+    templateUrl: './keyboard.component.html',
+    styleUrls: ['./keyboard.component.scss'],
+    standalone: false
 })
 export class KeyboardComponent implements AfterViewInit, OnInit {
 

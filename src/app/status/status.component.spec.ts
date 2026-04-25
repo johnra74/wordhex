@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CountdownModule, CountdownEvent } from 'ngx-countdown';
@@ -8,6 +8,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MessageService } from '../services/message.service'
 import { StatusComponent } from './status.component';
 import { GameStat } from '../board/board.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('StatusComponent', () => {
   let component: StatusComponent;
@@ -17,19 +18,18 @@ describe('StatusComponent', () => {
   beforeEach(async () => {        
     localStorage.clear(); // ensure storage is cleared before testin
     await TestBed.configureTestingModule({
-      declarations: [ StatusComponent ],
-      providers: [ NgbActiveModal,
-        { provider: MessageService, useValue: jasmine.createSpyObj<MessageService>('MessageService', ['newGame']) }
-      ],
-      imports: [HttpClientTestingModule, CountdownModule, NgChartsModule]
-    })
+    declarations: [StatusComponent],
+    imports: [CountdownModule, NgChartsModule],
+    providers: [NgbActiveModal,
+        { provider: MessageService, useValue: jasmine.createSpyObj<MessageService>('MessageService', ['newGame']) }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(StatusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    mockService = TestBed.get(MessageService);
+    mockService = TestBed.inject(MessageService);
   });
 
   it('given component when localStorage has no data then should create', () => {

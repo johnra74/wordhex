@@ -4,9 +4,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-ricked',
-  templateUrl: './ricked.component.html',
-  styleUrls: ['./ricked.component.scss']
+    selector: 'app-ricked',
+    templateUrl: './ricked.component.html',
+    styleUrls: ['./ricked.component.scss'],
+    standalone: false
 })
 export class RickedComponent {
 
