@@ -1,13 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "~bootswatch/dist/cosmo/variables";
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-/* Importing Bootstrap-ICON SCSS file. */
-@import '~bootstrap-icons/font/bootstrap-icons.scss';
-
-@import "~bootswatch/dist/cosmo/bootswatch";
+@import "bootswatch/dist/cosmo/variables";
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.scss';
+@import "bootswatch/dist/cosmo/bootswatch";
 
 body {
     touch-action: manipulation !important;
@@ -48,7 +44,7 @@ body {
     padding-top: 56.25%;
     position: relative;
   }
-  
+
 .iframe-container iframe {
     border: 0;
     height: 100%;

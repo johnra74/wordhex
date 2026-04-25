@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { Subject } from 'rxjs';
 
 import { BoardComponent, Row, Card } from './board.component';
 import { MessageService, Result } from '../services/message.service'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -15,16 +16,18 @@ describe('BoardComponent', () => {
     localStorage.clear(); // ensure storage is cleared before testin
 
     await TestBed.configureTestingModule({
-      declarations: [ BoardComponent ],
-      providers: [
-        { provider: MessageService, 
-          useValue: jasmine.createSpyObj<MessageService>('MessageService', ['getKey', 'getResult', 'getReloadBoardNotification', 'getCurrentDateKey']) }
-      ],
-      imports: [HttpClientTestingModule]
-    })
+    declarations: [BoardComponent],
+    imports: [],
+    providers: [
+        { provider: MessageService,
+            useValue: jasmine.createSpyObj<MessageService>('MessageService', ['getKey', 'getResult', 'getReloadBoardNotification', 'getCurrentDateKey']) },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
     .compileComponents();
 
-    mockService = TestBed.get(MessageService);
+    mockService = TestBed.inject(MessageService);
   });
 
   beforeEach(() => {

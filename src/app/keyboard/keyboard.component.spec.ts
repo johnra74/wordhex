@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { Subject } from 'rxjs';
 
 import { KeyboardComponent } from './keyboard.component';
 import { MessageService, Result } from '../services/message.service'
 import { StatusComponent } from '../status/status.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 describe('KeyboardComponent', () => {
@@ -15,16 +16,15 @@ describe('KeyboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KeyboardComponent ],
-      providers: [ StatusComponent,
-        { provider: MessageService, 
-          useValue: jasmine.createSpyObj<MessageService>('MessageService', ['validateAndMatch', 'getResult', 'getReloadKeyBoardNotification']) }
-      ],
-      imports: [HttpClientTestingModule]
-    })
+    declarations: [KeyboardComponent],
+    imports: [],
+    providers: [StatusComponent,
+        { provider: MessageService,
+            useValue: jasmine.createSpyObj<MessageService>('MessageService', ['validateAndMatch', 'getResult', 'getReloadKeyBoardNotification']) }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
     .compileComponents();
 
-    mockService = TestBed.get(MessageService);
+    mockService = TestBed.inject(MessageService);
   });
 
   beforeEach(() => {

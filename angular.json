@@ -32,10 +32,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/simple-keyboard/build/css/index.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css"
+              "node_modules/simple-keyboard/build/css/index.css"
             ],
             "scripts": [],
             "webWorkerTsConfig": "tsconfig.worker.json"
@@ -45,13 +42,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
@@ -77,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "wordhex:build:production"
+              "buildTarget": "wordhex:build:production"
             },
             "development": {
-              "browserTarget": "wordhex:build:development"
+              "buildTarget": "wordhex:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "wordhex:build"
+            "buildTarget": "wordhex:build"
           }
         },
         "test": {
@@ -115,5 +112,33 @@
       }
     }
   },
-  "defaultProject": "wordhex"
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { MessageService } from './message.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MessageService', () => {
   let service: MessageService;
@@ -11,8 +12,9 @@ describe('MessageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    });
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     service = TestBed.inject(MessageService);
     httpMock = TestBed.inject(HttpTestingController);

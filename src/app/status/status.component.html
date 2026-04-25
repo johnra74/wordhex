@@ -1,58 +1,70 @@
 <div class="modal-header bg-primary">
-    <h4 class="modal-title text-white">Statistics </h4>
-    <button type="button" class="close text-white" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <h4 class="modal-title text-white">Statistics </h4>
+  <button type="button" class="btn-close btn-close-white border-0" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 <div class="modal-body">
-    <div class="alert alert-info" role="alert" *ngIf="isClipboardSuccess">
-        Game Board copied!
+  @if (isClipboardSuccess) {
+    <div class="alert alert-info" role="alert">
+      Game Board copied!
     </div>
-    <div class="d-flex justify-content-around panel">
-        <div class="text-center">
-            <h3>{{ playCount }}</h3>
-            <p class="fs-3">Play Count</p>
-        </div>
-        <div class="text-center">
-            <h3 *ngIf="playCount !== 0">{{ winCount / playCount | percent }}</h3>
-            <h3 *ngIf="playCount === 0">0 %</h3>
-            <p class="fs-3">Win Pct</p></div>
-        <div class="text-center">
-            <h3>{{ currentStreak }}</h3>
-            <p class="fs-3">Current Streak</p>
-        </div>
-        <div class="text-center">
-            <h3>{{ bestStreak }}</h3>
-            <p class="fs-3">Best Streak</p>
-        </div>
-    </div> 
-    <div *ngIf="playCount > 0">
+  }
+  <div class="d-flex justify-content-around panel">
+    <div class="text-center">
+      <h3>{{ playCount }}</h3>
+      <p class="fs-3">Play Count</p>
+    </div>
+    <div class="text-center">
+      @if (playCount !== 0) {
+        <h3>{{ winCount / playCount | percent }}</h3>
+      }
+      @if (playCount === 0) {
+        <h3>0 %</h3>
+      }
+      <p class="fs-3">Win Pct</p></div>
+      <div class="text-center">
+        <h3>{{ currentStreak }}</h3>
+        <p class="fs-3">Current Streak</p>
+      </div>
+      <div class="text-center">
+        <h3>{{ bestStreak }}</h3>
+        <p class="fs-3">Best Streak</p>
+      </div>
+    </div>
+    @if (playCount > 0) {
+      <div>
         <canvas baseChart
-            [data]="barChartData"
-            [options]="barChartOptions"
-            [type]="barChartType">
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType">
         </canvas>
-    </div>
-    <div *ngIf="playCount === 0">
+      </div>
+    }
+    @if (playCount === 0) {
+      <div>
         <p class="text-center">
-        No Statistics available
+          No Statistics available
         </p>
-    </div>
+      </div>
+    }
     <hr />
-    <div class="container" *ngIf="isDone">        
+    @if (isDone) {
+      <div class="container">
         <div class="row">
-            <div class="col-6 text-center border-right">
-                <h4>Next Word in</h4>
-                <h5><countdown #cd [config]="countDownCfg" (event)="handleCountDownEvent($event)"></countdown></h5>
-            </div>
-            <div class="col-6 text-center pt-2">
-                <button (click)="share()" type="button" class="btn btn-primary btn-lg">Share <i class="bi bi-share"></i></button>        
-            </div>
+          <div class="col-6 text-center border-right">
+            <h4>Next Word in</h4>
+            <h5><countdown #cd [config]="countDownCfg" (event)="handleCountDownEvent($event)"></countdown></h5>
+          </div>
+          <div class="col-6 text-center pt-2">
+            <button (click)="share()" type="button" class="btn btn-primary btn-lg">Share <i class="bi bi-share"></i></button>
+          </div>
         </div>
-    </div>
-    <div class="d-flex justify-content-around panel" *ngIf="!isDone">
+      </div>
+    }
+    @if (!isDone) {
+      <div class="d-flex justify-content-around panel">
         <div class="text-center">
-            <h4>Game In Progess</h4>
-        </div>        
-    </div>
-</div>
+          <h4>Game In Progess</h4>
+        </div>
+      </div>
+    }
+  </div>
